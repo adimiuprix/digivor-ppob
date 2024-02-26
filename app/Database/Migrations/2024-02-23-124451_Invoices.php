@@ -36,8 +36,8 @@ class Invoices extends Migration
                 'constraint' => '255',
             ],
             'status' => [
-                'type'       => 'ENUM("pending", "success", "failed")',
-                'default' => 'pending',
+                'type'       => 'ENUM("Pending", "Sukses", "Gagal")',
+                'default' => 'Pending',
             ],
             'tujuan' => [
                 'type'       => 'VARCHAR',
