@@ -10,10 +10,12 @@ class BeliController extends BaseController
 {
     public function index()
     {
+        $notify = session()->getFlashdata('notify');
+
         $productModel = new ProductModel();
         $products = $productModel->findAll();
 
-        return view('beli', compact('products'));
+        return view('beli', compact('notify', 'products'));
     }
 
     public function proses(){
@@ -59,7 +61,6 @@ class BeliController extends BaseController
     }
 
     public function checkout(){
-        
         // Sensitif
         $username = "cazekoD7ELKg";
 
@@ -70,7 +71,7 @@ class BeliController extends BaseController
         // variable
         // $buyer_sku_code = $this->request->getPost('code');   // production
         $buyer_sku_code = 'xld10';  // test case
-        $customer_no = '087800001233'; // production gunakan >>>> $this->request->getPost('tujuan');
+        $customer_no = '087800001230'; // production gunakan >>>> $this->request->getPost('tujuan');
         $ref_id = $this->request->getPost('hash');
         $sign = md5($username . $apikey . $ref_id);
 
@@ -95,17 +96,16 @@ class BeliController extends BaseController
         
         $response = curl_exec($ch);
         
-        if($response === false) {
-            echo 'Error: ' . curl_error($ch);
-        } else {
-            // Simpan respons ke dalam file JSON
-            $jsonFile = 'response.json';
-            file_put_contents($jsonFile, $response);
-            echo 'Response telah disimpan dalam file JSON: ' . $jsonFile;
-        }
-
         curl_close($ch);
         
-        return $response;
+        // Ubah JSON menjadi array PHP
+        $dataResponse = json_decode($response, true);
+        $status = $dataResponse['data']['status'];
+
+        $invoiceModel = new InvoiceModel();
+        $invoiceModel->set('status', $status)->where('status', 'Pending')->update();
+
+        $notify = "berhasil checkout.";
+        return redirect()->to('beli')->with('notify', $notify);
     }
 }

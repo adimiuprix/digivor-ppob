@@ -21,4 +21,6 @@ $routes->post('beli-proses', 'BeliController::proses');
 $routes->get('invoice/(:segment)', 'BeliController::invoice/$1');
 $routes->post('beli-checkout', 'BeliController::checkout');
 
-$routes->post('callback', 'DigiFlazzController::callback');
+// $routes->post('callback', 'DigiFlazzController::callback');
+
+$routes->get('logs', 'DashboardController::logTransaction');

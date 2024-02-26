@@ -6,6 +6,11 @@
     <title>Document</title>
 </head>
 <body>
+
+    <?php if (!empty($notify)) : ?>
+        <div><?= $notify ?></div>
+    <?php endif; ?>
+
     <form action="<?= base_url('beli-proses'); ?>" method="post">
         <?= csrf_field() ?>
         <select name="product" class="form-control">

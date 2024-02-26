@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\UserModel;
+use App\Models\InvoiceModel;
 
 class DashboardController extends Controller
 {
@@ -25,5 +26,13 @@ class DashboardController extends Controller
         $saldo = $user['saldo'];
 
         return view('dashboard', compact('email', 'saldo'));
+    }
+
+    public function logTransaction(){
+        $userId = session()->get('id_user');
+        $invoiceModel = new InvoiceModel();
+        $logTransactions = $invoiceModel->where('id_buyyer', $userId)->findAll();
+
+        return view('logs', compact('logTransactions'));
     }
 }
