@@ -16,6 +16,8 @@ $routes->get('logout', 'LoginController::logout');
 
 $routes->get('dashboard', 'DashboardController::index');
 
+$routes->get('order/(:segment)', 'OrderController::index/$1');
+
 $routes->get('beli', 'BeliController::index');
 $routes->post('beli-proses', 'BeliController::proses');
 $routes->get('invoice/(:segment)', 'BeliController::invoice/$1');
