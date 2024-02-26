@@ -12,7 +12,7 @@ class InvoiceModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama_product', 'id_buyyer', 'code', 'harga', 'hash_id', 'tujuan', 'status'];
+    protected $allowedFields    = ['nama_product', 'id_buyer', 'code', 'harga', 'hash_id', 'tujuan', 'status'];
 
     protected bool $allowEmptyInserts = false;
 

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\UserModel;
 use App\Models\ProductModel;
 use App\Models\InvoiceModel;
 
@@ -11,41 +12,62 @@ class BeliController extends BaseController
     public function index()
     {
         $notify = session()->getFlashdata('notify');
+        $idUser = session()->get('id_user');
 
         $productModel = new ProductModel();
+
         $products = $productModel->findAll();
 
         return view('beli', compact('notify', 'products'));
     }
 
     public function proses(){
+        $userModel = new UserModel();
+    
         // Get session user ID
         $idUser = session()->get('id_user');
-
-        // Hash ID
-        $timestamp = time();
-        $seed = 'Masukkan sembarang string';
-        $combined = $timestamp . $seed;
-        $encrypted = md5($combined);
-        $hashID = strtoupper(substr($encrypted, 0, 8));
-
-        $data = [
-            'id_buyyer' => $idUser,
-            'nama_product' => 'DANA',
-            'code' => $this->request->getPost('product'),
-            'harga' => $this->request->getPost('harga'),
-            'hash_id' => $hashID,
-            'status' => 'pending',
-            'tujuan' => $this->request->getPost('tujuan'),
-        ];
-
-        $invoice = new InvoiceModel();
-        $invoice->insert($data);
-
-        // redirect ke invoice dengan membawa hashID
-        return redirect()->to('invoice/' . $hashID);
+    
+        $dataUser = $userModel->find($idUser);
+        
+        if($dataUser){
+            $saldo = $dataUser['saldo'];
+            $harga = $this->request->getPost('harga');
+            $tujuan = $this->request->getPost('tujuan');
+    
+            if($saldo >= $harga && !empty($tujuan)){
+                // Hash ID
+                $timestamp = time();
+                $seed = 'Masukkan sembarang string';
+                $combined = $timestamp . $seed;
+                $encrypted = md5($combined);
+                $hashID = strtoupper(substr($encrypted, 0, 8));
+                
+                // Memasukkan data ini ke table invoice dengan status Pending
+                $data = [
+                    'id_buyer' => $idUser,
+                    'nama_product' => 'DANA',
+                    'code' => $this->request->getPost('product'),
+                    'harga' => $harga,
+                    'hash_id' => $hashID,
+                    'status' => 'Pending',
+                    'tujuan' => $tujuan,
+                ];
+    
+                $invoice = new InvoiceModel();
+                $invoice->insert($data);
+    
+                // redirect ke invoice dengan membawa hashID
+                return redirect()->to('invoice/' . $hashID);
+            } else {
+                $notify = ($saldo < $harga) ? "Saldo kurang!!!" : "Tujuan tidak boleh kosong!!!";
+                return redirect()->to('beli')->with('notify', $notify);
+            }
+        } else {
+            $notify = "Pengguna tidak ditemukan";
+            return redirect()->to('beli')->with('notify', $notify);
+        }
     }
-
+    
     public function invoice($hash){
         $invoiceModel = new InvoiceModel();
         $invoice = $invoiceModel->where('hash_id', $hash)->first();

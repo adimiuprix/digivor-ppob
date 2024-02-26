@@ -15,7 +15,7 @@ class Invoices extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'id_buyyer' => [
+            'id_buyer' => [
                 'type'           => 'INT',
                 'constraint'     => 100,
             ],
