@@ -83,51 +83,72 @@ class BeliController extends BaseController
     }
 
     public function checkout(){
-        // Sensitif
-        $username = "cazekoD7ELKg";
+        $userModel = new UserModel();
+    
+        // Get session user ID
+        $idUser = session()->get('id_user');
+    
+        $dataUser = $userModel->find($idUser);
 
-        // dev-a4738eb0-3ef5-11ed-beae-fd9939a68b2b
-        // a3bd1141-63f8-5885-9d9a-c52bbcf2c97b
-        $apikey = "dev-a4738eb0-3ef5-11ed-beae-fd9939a68b2b";   
+        if($dataUser){
+            $saldo = $dataUser['saldo'];
+            $harga = $this->request->getPost('harga');
 
-        // variable
-        // $buyer_sku_code = $this->request->getPost('code');   // production
-        $buyer_sku_code = 'xld10';  // test case
-        $customer_no = '087800001230'; // production gunakan >>>> $this->request->getPost('tujuan');
-        $ref_id = $this->request->getPost('hash');
-        $sign = md5($username . $apikey . $ref_id);
+            if($saldo >= $harga){
+                // Sensitif
+                $username = "cazekoD7ELKg";
+                // dev-a4738eb0-3ef5-11ed-beae-fd9939a68b2b
+                // a3bd1141-63f8-5885-9d9a-c52bbcf2c97b
+                $apikey = "dev-a4738eb0-3ef5-11ed-beae-fd9939a68b2b";   
+        
+                // variable
+                // $buyer_sku_code = $this->request->getPost('code');   // production
+                $buyer_sku_code = 'xld10';  // test case
+                $customer_no = '087800001230'; // production gunakan >>>> $this->request->getPost('tujuan');
+                $ref_id = $this->request->getPost('hash');
+                $sign = md5($username . $apikey . $ref_id);
+        
+                // Data permintaan API
+                $data = array(
+                    'ref_id' => $ref_id,
+                    'testing' => true,
+                    'username' => $username,
+                    'buyer_sku_code' => $buyer_sku_code,
+                    'customer_no' => $customer_no,
+                    'sign' => $sign,
+                );
+                
+                // Mengirim permintaan ke API
+                $ch = curl_init();
+                
+                curl_setopt($ch, CURLOPT_URL, 'https://api.digiflazz.com/v1/transaction');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+                
+                $response = curl_exec($ch);
+                
+                curl_close($ch);
+                
+                // Ubah JSON menjadi array PHP
+                $dataResponse = json_decode($response, true);
+                $status = $dataResponse['data']['status'];
+        
+                $invoiceModel = new InvoiceModel();
+                $invoiceModel->set('status', $status)->where('status', 'Pending')->update();
 
-        // Data permintaan API
-        $data = array(
-            'ref_id' => $ref_id,
-            'testing' => true,
-            'username' => $username,
-            'buyer_sku_code' => $buyer_sku_code,
-            'customer_no' => $customer_no,
-            'sign' => $sign,
-        );
-        
-        // Mengirim permintaan ke API
-        $ch = curl_init();
-        
-        curl_setopt($ch, CURLOPT_URL, 'https://api.digiflazz.com/v1/transaction');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-        
-        $response = curl_exec($ch);
-        
-        curl_close($ch);
-        
-        // Ubah JSON menjadi array PHP
-        $dataResponse = json_decode($response, true);
-        $status = $dataResponse['data']['status'];
+                // Kurangi saldo user sebanyak harga produk, lalu update saldonya
+                $newSaldo = $saldo - $harga;
+                $userModel->find($idUser);
+                $userModel->update($idUser, ['saldo' => $newSaldo]);
 
-        $invoiceModel = new InvoiceModel();
-        $invoiceModel->set('status', $status)->where('status', 'Pending')->update();
-
-        $notify = "berhasil checkout.";
-        return redirect()->to('beli')->with('notify', $notify);
+                $notify = "berhasil checkout.";
+                return redirect()->to('beli')->with('notify', $notify);
+            } else {
+                $notify = "Saldo kurang!!!";
+                return redirect()->to('beli')->with('notify', $notify);
+            }
+        }
     }
 }
