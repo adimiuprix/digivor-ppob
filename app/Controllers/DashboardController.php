@@ -22,16 +22,17 @@ class DashboardController extends Controller
         $userModel = new UserModel();
         $user = $userModel->find($userId);
 
+        $nama = $user['username'];
         $email = $user['email'];
         $saldo = $user['saldo'];
 
-        return view('dashboard', compact('email', 'saldo'));
+        return view('dashboard', compact('nama', 'email', 'saldo'));
     }
 
     public function logTransaction(){
         $userId = session()->get('id_user');
         $invoiceModel = new InvoiceModel();
-        $logTransactions = $invoiceModel->where('id_buyyer', $userId)->findAll();
+        $logTransactions = $invoiceModel->where('id_buyer', $userId)->findAll();
 
         return view('logs', compact('logTransactions'));
     }

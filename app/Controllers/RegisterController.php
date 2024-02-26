@@ -17,7 +17,7 @@ class RegisterController extends BaseController
     {
         // Validasi input
         $rules = [
-            'nama' => 'required',
+            'username' => 'required',
             'email' => 'required|valid_email|is_unique[users.email]',
             'password' => 'required|min_length[8]',
         ];
@@ -32,7 +32,7 @@ class RegisterController extends BaseController
         // Simpan data user ke database
         $userModel = new UserModel();
         $data = [
-            'nama' => $this->request->getVar('nama'),
+            'username' => $this->request->getVar('username'),
             'email' => $this->request->getVar('email'),
             'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
         ];

@@ -9,8 +9,8 @@
 
     <form action="<?= base_url('register/save'); ?>" method="post">
         <?= csrf_field() ?>
-        <label for="nama">Nama</label>
-        <input type="text" name="nama" id="nama" value="<?= old('nama') ?>">
+        <label for="username">username</label>
+        <input type="text" name="username" id="username" value="<?= old('username') ?>">
     
         <label for="email">Email</label>
         <input type="email" name="email" id="email" value="<?= old('email') ?>">

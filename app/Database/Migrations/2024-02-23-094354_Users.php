@@ -15,7 +15,7 @@ class Users extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'nama' => [
+            'username' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',
             ],
