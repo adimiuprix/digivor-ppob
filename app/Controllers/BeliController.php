@@ -95,8 +95,17 @@ class BeliController extends BaseController
         
         $response = curl_exec($ch);
         
+        if($response === false) {
+            echo 'Error: ' . curl_error($ch);
+        } else {
+            // Simpan respons ke dalam file JSON
+            $jsonFile = 'response.json';
+            file_put_contents($jsonFile, $response);
+            echo 'Response telah disimpan dalam file JSON: ' . $jsonFile;
+        }
+
         curl_close($ch);
         
-        echo $response;
+        return $response;
     }
 }
