@@ -4,34 +4,20 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
-use App\Models\ProductModel;
 use App\Models\InvoiceModel;
 
 class BeliController extends BaseController
 {
-    public function index()
-    {
-        $notify = session()->getFlashdata('notify');
-        $idUser = session()->get('id_user');
-
-        $productModel = new ProductModel();
-
-        $products = $productModel->findAll();
-
-        return view('beli', compact('notify', 'products'));
-    }
-
-    public function proses(){
+    public function purchase(){
         $userModel = new UserModel();
     
         // Get session user ID
         $idUser = session()->get('id_user');
     
         $dataUser = $userModel->find($idUser);
-        
         if($dataUser){
             $saldo = $dataUser['saldo'];
-            $harga = $this->request->getPost('harga');
+            $harga = $this->request->getPost('price');
             $tujuan = $this->request->getPost('tujuan');
     
             if($saldo >= $harga && !empty($tujuan)){
@@ -59,12 +45,12 @@ class BeliController extends BaseController
                 // redirect ke invoice dengan membawa hashID
                 return redirect()->to('invoice/' . $hashID);
             } else {
-                $notify = ($saldo < $harga) ? "Saldo kurang!!!" : "Tujuan tidak boleh kosong!!!";
-                return redirect()->to('beli')->with('notify', $notify);
+                $notify = ($saldo < $harga) ? "Saldo kurang!!!" : "Nomor tujuan tidak boleh kosong!!!";
+                return redirect()->back()->with('notify', $notify);
             }
         } else {
             $notify = "Pengguna tidak ditemukan";
-            return redirect()->to('beli')->with('notify', $notify);
+            return redirect()->back()->with('notify', $notify);
         }
     }
     
@@ -78,7 +64,7 @@ class BeliController extends BaseController
             return view('invoice', ['invoice' => $invoice]);
         } else {
             // Jika tidak ditemukan, redirect atau tampilkan pesan error
-            return redirect()->to('beli');
+            return redirect()->to('dashboard');
         }
     }
 
@@ -143,10 +129,10 @@ class BeliController extends BaseController
                 $userModel->update($idUser, ['saldo' => $newSaldo]);
 
                 $notify = "berhasil checkout.";
-                return redirect()->to('beli')->with('notify', $notify);
+                return redirect()->to('dashboard')->with('notify', $notify);
             } else {
                 $notify = "Saldo kurang!!!";
-                return redirect()->to('beli')->with('notify', $notify);
+                return redirect()->to('dashboard')->with('notify', $notify);
             }
         }
     }

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\UserModel;
+use App\Models\CategoryModel;
 use App\Models\InvoiceModel;
 
 class DashboardController extends Controller
@@ -14,6 +15,9 @@ class DashboardController extends Controller
         if (!session()->has('logged_in')) {
             return redirect()->to('/login');
         }
+
+        $categoryModel = new CategoryModel();
+        $categories = $categoryModel->findAll();
 
         // Dapatkan data user dari session
         $userId = session()->get('id_user');
@@ -26,7 +30,7 @@ class DashboardController extends Controller
         $email = $user['email'];
         $saldo = $user['saldo'];
 
-        return view('dashboard', compact('nama', 'email', 'saldo'));
+        return view('dashboard', compact('nama', 'email', 'saldo', 'categories'));
     }
 
     public function logTransaction(){

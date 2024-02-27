@@ -18,8 +18,7 @@ $routes->get('dashboard', 'DashboardController::index');
 
 $routes->get('order/(:segment)', 'OrderController::index/$1');
 
-$routes->get('beli', 'BeliController::index');
-$routes->post('beli-proses', 'BeliController::proses');
+$routes->post('purchase-payment', 'BeliController::purchase');
 $routes->get('invoice/(:segment)', 'BeliController::invoice/$1');
 $routes->post('beli-checkout', 'BeliController::checkout');
 

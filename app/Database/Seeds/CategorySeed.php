@@ -4,22 +4,22 @@ namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
-class KategoriLayananSeed extends Seeder
+class CategorySeed extends Seeder
 {
     public function run()
     {
         $data = [
             [
-                'kategori'  => 'Pulsa',
+                'category'  => 'Pulsa',
             ],
             [
-                'kategori'  => 'Data',
+                'category'  => 'Data',
             ],
             [
-                'kategori'  => 'E-wallet',
+                'category'  => 'E-wallet',
             ],
         ];
         // Simple Query
-        $this->db->table('kategoris')->insertBatch($data);
+        $this->db->table('categories')->insertBatch($data);
     }
 }
