@@ -25,6 +25,26 @@ class ItemProductSeed extends Seeder
                 'nama_item'  => 'AS',
                 'category'  => 'Pulsa',
             ],
+            [
+                'nama_item'  => 'DANA',
+                'category'  => 'E-wallet',
+            ],
+            [
+                'nama_item'  => 'OVO',
+                'category'  => 'E-wallet',
+            ],
+            [
+                'nama_item'  => 'GOPAY',
+                'category'  => 'E-wallet',
+            ],
+            [
+                'nama_item'  => 'SEABANK',
+                'category'  => 'E-wallet',
+            ],
+            [
+                'nama_item'  => 'LINKAJA',
+                'category'  => 'E-wallet',
+            ],
         ];
         // Simple Query
         $this->db->table('item_products')->insertBatch($data);
