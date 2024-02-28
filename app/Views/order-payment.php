@@ -18,8 +18,8 @@
 
             <?php foreach($categoryItems as $item): ?>
             <div class="input-group">
-                <input type="radio" id="truck" name="name_product" value="<?= $item['nama_product']; ?>">
-                <label><?= $item['nama_product']; ?></label>
+                <input type="radio" id="truck" name="name_product" value="<?= $item['nama_item']; ?>">
+                <label><?= $item['nama_item']; ?></label>
             </div>
             <?php endforeach; ?>
             <br/><br/>

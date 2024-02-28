@@ -19,7 +19,6 @@ class OrderController extends BaseController
         $itemsModel = new ItemProductModel();
 
         $categoryItems = $itemsModel->where('category', $category)->findAll();
-
         $items = $productModel->where('category', $category)->findAll();
 
         $formattedPayments = [];

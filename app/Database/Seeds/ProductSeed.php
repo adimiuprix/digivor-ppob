@@ -10,22 +10,18 @@ class ProductSeed extends Seeder
     {
         $data = [
             [
-                'category' => '1',
-                'nama'  => 'Dana',
-                'code'  => 'DANA1',
-                'harga' => '1000',
-            ],
-            [
-                'category' => '1',
-                'nama'  => 'Dana',
-                'code'  => 'DANA5',
-                'harga' => '5000',
-            ],
-            [
-                'category' => '1',
-                'nama'  => 'Dana',
-                'code'  => 'DANA10',
+                'category' => 'Pulsa',
+                'nama'  => 'Pulsa Telkomsel',
+                'type_listing'  => 'TELKOMSEL',
+                'code'  => 'TLKM10',
                 'harga' => '10000',
+            ],
+            [
+                'category' => 'Pulsa',
+                'nama'  => 'Pulsa Telkomsel',
+                'type_listing'  => 'TELKOMSEL',
+                'code'  => 'TLKM50',
+                'harga' => '50000',
             ],
 
         ];

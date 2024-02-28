@@ -15,11 +15,7 @@ class ItemProducts extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'id_cat' => [
-                'type'       => 'INT',
-                'constraint' => 15,
-            ],
-            'nama_product' => [
+            'nama_item' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
             ],
