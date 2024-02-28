@@ -11,26 +11,6 @@
         <div><?= $notify ?></div>
     <?php endif; ?>
 
-    <?php
-        // Array daftar tipe barang untuk setiap kategori
-        $typeProductList = array(
-            'DANA' => array(
-                array('nama' => 'Dana', 'harga' => '5000', 'code' => 'DANA1'),
-                array('nama' => 'Dana', 'harga' => '10000', 'code' => 'DANA5'),
-                array('nama' => 'Dana', 'harga' => '50000', 'code' => 'DANA50')
-            ),
-            'OVO' => array(
-                array('nama' => 'Ovo', 'harga' => '30000', 'code' => 'VUJBHKH'),
-                array('nama' => 'Ovo', 'harga' => '40000', 'code' => 'FHBIB78C')
-            ),
-            'SEABANK' => array(
-                array('nama' => 'Seabank', 'harga' => '20000', 'code' => 'SJHIOTB'),
-                array('nama' => 'Seabank', 'harga' => '50000', 'code' => 'PGBUFG')
-            )
-        );
-
-    ?>
-
     <form action="<?= base_url('purchase-payment'); ?>" method="post">
         <?= csrf_field() ?>
         <div class="container">
@@ -53,8 +33,9 @@
             <div id="daftar"></div>
         </div>
 
-        <input type="text" name="code_product" id="code_input" placeholder="code produk">
+        <input type="hidden" name="code_product" id="code_input">
         <input type="number" name="tujuan" placeholder="No. Tujuan">
+        
         <button type="submit">Bayar</button>
     </form>
 
