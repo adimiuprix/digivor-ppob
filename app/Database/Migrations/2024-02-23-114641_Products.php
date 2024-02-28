@@ -40,8 +40,6 @@ class CreateProductsTable extends Migration
 
         $this->forge->addKey('id_product', true);
         $this->forge->createTable('products');
-
-        // ... (Optional) Add foreign key constraint to 'category_id' referencing 'categories.id'
     }
 
     public function down()
