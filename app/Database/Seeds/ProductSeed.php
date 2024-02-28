@@ -11,19 +11,74 @@ class ProductSeed extends Seeder
         $data = [
             [
                 'category' => 'Pulsa',
-                'nama'  => 'Pulsa Telkomsel',
+                'name'  => 'Pulsa Telkomsel',
                 'type_listing'  => 'TELKOMSEL',
-                'code'  => 'TLKM10',
-                'harga' => '10000',
+                'code'  => 'TLKM5',
+                'price' => '5000',
             ],
             [
                 'category' => 'Pulsa',
-                'nama'  => 'Pulsa Telkomsel',
+                'name'  => 'Pulsa Telkomsel',
+                'type_listing'  => 'TELKOMSEL',
+                'code'  => 'TLKM10',
+                'price' => '10000',
+            ],
+            [
+                'category' => 'Pulsa',
+                'name'  => 'Pulsa Telkomsel',
                 'type_listing'  => 'TELKOMSEL',
                 'code'  => 'TLKM50',
-                'harga' => '50000',
+                'price' => '50000',
             ],
-
+            [
+                'category' => 'Pulsa',
+                'name'  => 'Pulsa Three',
+                'type_listing'  => 'THREE',
+                'code'  => 'THR5',
+                'price' => '5000',
+            ],
+            [
+                'category' => 'Pulsa',
+                'name'  => 'Pulsa Three',
+                'type_listing'  => 'THREE',
+                'code'  => 'THR10',
+                'price' => '10000',
+            ],
+            [
+                'category' => 'Pulsa',
+                'name'  => 'Pulsa Three',
+                'type_listing'  => 'THREE',
+                'code'  => 'THR20',
+                'price' => '20000',
+            ],
+            [
+                'category' => 'Pulsa',
+                'name'  => 'Pulsa Three',
+                'type_listing'  => 'THREE',
+                'code'  => 'THR50',
+                'price' => '50000',
+            ],
+            [
+                'category' => 'Pulsa',
+                'name'  => 'Pulsa Indosat',
+                'type_listing'  => 'INDOSAT',
+                'code'  => 'INDST5',
+                'price' => '5000',
+            ],
+            [
+                'category' => 'Pulsa',
+                'name'  => 'Pulsa Indosat',
+                'type_listing'  => 'INDOSAT',
+                'code'  => 'INDST10',
+                'price' => '10000',
+            ],
+            [
+                'category' => 'E-wallet',
+                'name'  => 'Saldo Dana',
+                'type_listing'  => 'DANA',
+                'code'  => 'DANA5',
+                'price' => '5000',
+            ],
         ];
         // Simple Query
         $this->db->table('products')->insertBatch($data);
