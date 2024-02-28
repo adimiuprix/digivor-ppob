@@ -15,11 +15,14 @@ class BeliController extends BaseController
         $idUser = session()->get('id_user');
     
         $dataUser = $userModel->find($idUser);
+
         if($dataUser){
             $saldo = $dataUser['saldo'];
+            $namaProduct = $this->request->getPost('name_product');
+            $code = $this->request->getPost('code_product');
             $harga = $this->request->getPost('price');
             $tujuan = $this->request->getPost('tujuan');
-    
+
             if($saldo >= $harga && !empty($tujuan)){
                 // Hash ID
                 $timestamp = time();
@@ -30,13 +33,13 @@ class BeliController extends BaseController
                 
                 // Memasukkan data ini ke table invoice dengan status Pending
                 $data = [
-                    'id_buyer' => $idUser,
-                    'nama_product' => 'DANA',
-                    'code' => $this->request->getPost('product'),
-                    'harga' => $harga,
-                    'hash_id' => $hashID,
-                    'status' => 'Pending',
-                    'tujuan' => $tujuan,
+                    'id_buyer' => $idUser,  // Dari id_user session
+                    'nama_product' => $namaProduct, // Nama Produk
+                    'code' => $code,    // Code produk
+                    'harga' => $harga,  // Harga produk
+                    'hash_id' => $hashID,   // Di generate system
+                    'status' => 'Pending',  // Di setel Pending untuk awal
+                    'tujuan' => $tujuan,    // Dari Form
                 ];
     
                 $invoice = new InvoiceModel();
