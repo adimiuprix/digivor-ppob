@@ -43,32 +43,20 @@
 
     <script>
     $(document).ready(() => {
-        // Data daftar tipe barang dalam bentuk JSON
-        const typeProductList = <?php echo json_encode($typeProductList); ?>;
+        const typeProductList = <?= json_encode($typeProductList) ?>;
 
-        $("input[type='radio']").change(() => {
+        $("input[name='name_product']").change(() => {
             const selectedValue = $("input[name='name_product']:checked").val();
-            $('#daftar').show();
+            $('#daftar').empty().show();
 
-            // Mendapatkan daftar tipe barang sesuai dengan kategori yang dipilih
             const prodList = typeProductList[selectedValue];
 
-            // Menyiapkan variabel untuk menyimpan konten yang akan ditampilkan
-            let content = "";
+            const content = prodList.map(item => {
+                return `<input type="radio" name="price" value="${item.harga}" data-name="${item.nama}" data-harga="${item.harga}" data-code="${item.code}">${item.nama}, Harga: ${item.harga} Code: ${item.code}<br>`;
+            }).join('');
 
-            // Iterasi melalui daftar tipe barang dan menambahkan konten untuk setiap pilihan
-            prodList.forEach(item => {
-                content += `<input type="radio" name="price" value="${item.harga}" data-name="${item.nama}" data-harga="${item.harga}" data-code="${item.code}">${item.nama}, Harga: ${item.harga} Code: ${item.code}<br>`;
-            });
-
-            // Memasukkan konten ke dalam elemen dengan id "daftar"
-            $('#daftar').html(content);
-            
-            // Menambahkan event listener untuk setiap input radio yang baru ditambahkan
-            $('input[name="price"]').on('change', function() {
-                const selectedCode = $(this).data('code'); // Mengambil nilai atribut data-code
-                
-                // Menetapkan nilai atribut data-code ke input dengan id "code_input"
+            $('#daftar').html(content).find('input[name="price"]').on('change', function() {
+                const selectedCode = $(this).data('code');
                 $('#code_input').val(selectedCode);
             });
         });
