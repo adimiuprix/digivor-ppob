@@ -18,6 +18,18 @@ class CategorySeed extends Seeder
             [
                 'category'  => 'E-wallet',
             ],
+            [
+                'category'  => 'Game',
+            ],
+            [
+                'category'  => 'PLN',
+            ],
+            [
+                'category'  => 'Streamming',
+            ],
+            [
+                'category'  => 'Samsat',
+            ],
         ];
         // Simple Query
         $this->db->table('categories')->insertBatch($data);
