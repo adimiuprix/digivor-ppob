@@ -15,11 +15,19 @@ class CreateProductsTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
+            'id_item' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+            ],
             'category' => [
                 'type'       => 'INT',
                 'constraint' => 11,
             ],
-            'nama' => [
+            'name' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'type_listing' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
             ],
@@ -27,7 +35,7 @@ class CreateProductsTable extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'harga' => [
+            'price' => [
                 'type'       => 'DECIMAL',
                 'constraint' => '10,2',
                 'default'    => '0.00',
