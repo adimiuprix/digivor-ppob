@@ -15,19 +15,13 @@
         <?= csrf_field() ?>
         <div class="container">
             <h2>Pilih salah satu kategori:</h2>
-            <div class="input-group">
-                <input type="radio" id="truck" name="name_product" value="DANA">
-                <label>Dana</label>
-            </div>
-            <div class="input-group">
-                <input type="radio" id="mobil" name="name_product" value="OVO">
-                <label>Ovo</label>
-            </div>
-            <div class="input-group">
-                <input type="radio" id="motor" name="name_product" value="SEABANK">
-                <label>Seabank</label>
-            </div>
 
+            <?php foreach($categoryItems as $item): ?>
+            <div class="input-group">
+                <input type="radio" id="truck" name="name_product" value="<?= $item['nama_product']; ?>">
+                <label><?= $item['nama_product']; ?></label>
+            </div>
+            <?php endforeach; ?>
             <br/><br/>
             <!-- Hasilnya di render disini -->
             <div id="daftar"></div>
@@ -43,7 +37,7 @@
 
     <script>
     $(document).ready(() => {
-        const typeProductList = <?= json_encode($typeProductList) ?>;
+        const typeProductList = <?= json_encode($formattedPayments) ?>;
 
         $("input[name='name_product']").change(() => {
             const selectedValue = $("input[name='name_product']:checked").val();

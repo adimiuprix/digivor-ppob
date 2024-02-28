@@ -18,35 +18,20 @@ class OrderController extends BaseController
         $productModel = new ProductModel();
         $itemsModel = new ItemProductModel();
 
-        $items = $itemsModel
-            ->join('categories', 'categories.id_category = item_products.id_cat')
-            ->where('category', $category)
-            ->get()
-            ->getResult();
+        $categoryItems = $itemsModel->where('category', $category)->findAll();
 
-        $productResults = $productModel
-            ->join('categories', 'categories.id_category = products.id_cat')
-            ->where('category', $category)
-            ->get()
-            ->getResult();
+        $items = $productModel->where('category', $category)->findAll();
 
-        // Array daftar tipe barang untuk setiap kategori
-        $typeProductList = array(
-            'DANA' => array(
-                array('nama' => 'Dana', 'harga' => '5000', 'code' => 'DANA1'),
-                array('nama' => 'Dana', 'harga' => '10000', 'code' => 'DANA5'),
-                array('nama' => 'Dana', 'harga' => '50000', 'code' => 'DANA50')
-            ),
-            'OVO' => array(
-                array('nama' => 'Ovo', 'harga' => '30000', 'code' => 'VUJBHKH'),
-                array('nama' => 'Ovo', 'harga' => '40000', 'code' => 'FHBIB78C')
-            ),
-            'SEABANK' => array(
-                array('nama' => 'Seabank', 'harga' => '20000', 'code' => 'SJHIOTB'),
-                array('nama' => 'Seabank', 'harga' => '50000', 'code' => 'PGBUFG')
-            )
-        );
+        $formattedPayments = [];
 
-        return view('order-payment', compact('notify', 'items', 'productResults', 'typeProductList'));
+        foreach ($items as $payment) {
+            $formattedPayments[$payment['type_listing']][] = [
+                'nama' => $payment['name'],
+                'harga' => $payment['price'],
+                'code' => $payment['code']
+            ];
+        }
+
+        return view('order-payment', compact('notify', 'categoryItems', 'formattedPayments'));
     }
 }

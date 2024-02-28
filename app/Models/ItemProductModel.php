@@ -12,7 +12,7 @@ class ItemProductModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_cat', 'nama_product'];
 
     protected bool $allowEmptyInserts = false;
 
